@@ -85,6 +85,7 @@ while userDir != 'q':
                 except:
                     print("You can't go that way\n")
         else:
-            print('Please enter n, s, e or w\n')
+            if userDir != 'q':
+                print('Please enter n, s, e or w\n')
     else:
         print("Please enter a single character.\n")
