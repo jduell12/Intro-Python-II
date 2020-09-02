@@ -49,3 +49,9 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+userDir = 'c'
+
+while userDir != 'q':
+    userDir = input(
+        'Please enter a direction to move: n, s, e, w. Enter q to quit: ')
