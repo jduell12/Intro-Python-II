@@ -6,7 +6,7 @@ class Room:
         self.name = name
         self.description = description
         self.items = []
-        self.is_light: False
+        self.is_light = False
 
     def __repr__(self):
         res = "Room(name = %s, description = %s, items =  " % (
