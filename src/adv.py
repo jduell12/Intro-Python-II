@@ -72,21 +72,24 @@ def getDirection(direction):
 def itemChoice():
     userDir = 'c'
     while userDir != 'q':
+        print("#############################################\n\n")
         if (len(player1.current_room.items) != 0):
-            print("You find the item(s): \n %s: %s\n" % (
+            print("You find the item(s): \n\n%s: %s\n" % (
                 player1.current_room.items[0].name, player1.current_room.items[0].description))
-            userDir = input("What do you want to do? \n get or take %s \n Enter q to continue your adventure: \n" % (
+            userDir = input("What do you want to do? \nget or take %s \nEnter q to continue your adventure: \n" % (
                 player1.current_room.items[0].name))
         else:
             print("\nThere are no more items to get here.\n")
             userDir = input(
                 "What do you want to do? \n Enter q to continue your adventure: \n")
 
+        print('\n')
+
         commands = userDir.split()
 
         if commands[0].lower() == 'get' or commands[0].lower() == 'take':
             for item in player1.current_room.items:
-                if item.name == commands[1]:
+                if item.name == commands[1].lower():
                     player1.inventory.append(item)
                     player1.current_room.items.remove(item)
         else:
@@ -96,6 +99,7 @@ def itemChoice():
 userDir = 'c'
 
 while userDir != 'q':
+    print("#############################################\n\n")
     print('\nYou find yourself in %s. %s\n' % (
         player1.current_room.name, player1.current_room.description))
     userDir = input(
