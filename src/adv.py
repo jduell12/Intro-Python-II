@@ -1,5 +1,6 @@
 from player import Player
 from room import Room
+from item import Item
 
 # Declare all the rooms
 
@@ -24,6 +25,20 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+# Create items for game
+dagger = Item(
+    'dagger', 'A small but very sharp dagger. Good for cutting things.')
+coins = Item('coins', "A small pile of gold coins. Shine brightly in the light")
+treasure = Item('treasure', 'A large pile of treasure')
+rope = Item('rope', 'A very sturdy long piece of rope. Could be useful...')
+
+# Add items to the respective rooms
+room['foyer'].items = [dagger]
+room['overlook'].items = [rope]
+room['narrow'].items = [treasure]
+room['treasure'].items = [coins]
+
+# print(room['outside'])
 
 #
 # Main
@@ -54,38 +69,38 @@ def getDirection(direction):
     return False
 
 
-userDir = 'c'
+# userDir = 'c'
 
-while userDir != 'q':
-    print('\nYou find yourself in %s. %s\n' % (
-        player1.current_room.name, player1.current_room.description))
-    userDir = input(
-        'Please enter a direction to move: n, s, e, w. Enter q to quit: \n')
-    if userDir.isalpha() and len(userDir) == 1:
-        userDir = userDir.lower()
-        if getDirection(userDir):
-            if userDir == 'n':
-                try:
-                    player1.current_room = player1.current_room.n_to
-                except:
-                    print("You can't go that way\n")
-            elif userDir == 's':
-                try:
-                    player1.current_room = player1.current_room.s_to
-                except:
-                    print("You can't go that way\n")
-            elif userDir == 'e':
-                try:
-                    player1.current_room = player1.current_room.e_to
-                except:
-                    print("You can't go that way\n")
-            else:
-                try:
-                    player1.current_room = player1.current_room.w_to
-                except:
-                    print("You can't go that way\n")
-        else:
-            if userDir != 'q':
-                print('Please enter n, s, e or w\n')
-    else:
-        print("Please enter a single character.\n")
+# while userDir != 'q':
+#     print('\nYou find yourself in %s. %s\n' % (
+#         player1.current_room.name, player1.current_room.description))
+#     userDir = input(
+#         'Please enter a direction to move: n, s, e, w. Enter q to quit: \n')
+#     if userDir.isalpha() and len(userDir) == 1:
+#         userDir = userDir.lower()
+#         if getDirection(userDir):
+#             if userDir == 'n':
+#                 try:
+#                     player1.current_room = player1.current_room.n_to
+#                 except:
+#                     print("You can't go that way\n")
+#             elif userDir == 's':
+#                 try:
+#                     player1.current_room = player1.current_room.s_to
+#                 except:
+#                     print("You can't go that way\n")
+#             elif userDir == 'e':
+#                 try:
+#                     player1.current_room = player1.current_room.e_to
+#                 except:
+#                     print("You can't go that way\n")
+#             else:
+#                 try:
+#                     player1.current_room = player1.current_room.w_to
+#                 except:
+#                     print("You can't go that way\n")
+#         else:
+#             if userDir != 'q':
+#                 print('Please enter n, s, e or w\n')
+#     else:
+#         print("Please enter a single character.\n")
