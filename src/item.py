@@ -9,3 +9,22 @@ class Item:
 
     def on_drop(self):
         print("You have dropped %s\n" % (self.name))
+
+# Lightsource subclass of Item
+
+
+class LightSource(Item):
+    def __init__(self, name, description):
+        super().__init__(name, description)
+
+    def on_drop(self):
+        print("It's not wise to drop your source of illumination! %s\n" %
+              (self.name))
+
+# Pack subclass of item
+
+
+class Pack(Item):
+    def __init__(self, name, description, size):
+        super().__init__(name, description)
+        self.size = size

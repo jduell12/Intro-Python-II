@@ -1,6 +1,6 @@
 from player import Player
 from room import Room
-from item import Item
+from item import Item, LightSource, Pack
 
 # Declare all the rooms
 
@@ -12,6 +12,9 @@ room = {
     'narrow':   Room("Narrow Passage", """The narrow passage bends here from west to north. The smell of gold permeates the air."""),
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure chamber! Sadly, it has already been completely emptied by earlier adventurers. The only exit is to the south."""),
 }
+
+# determine which rooms have natural light source
+room['outside'].is_light = True
 
 
 # Link rooms together
@@ -31,14 +34,15 @@ dagger = Item(
 coins = Item('coins', "A small pile of gold coins. Shine brightly in the light")
 treasure = Item('treasure', 'A large pile of treasure')
 rope = Item('rope', 'A very sturdy long piece of rope. Could be useful...')
+flashlight = LightSource('flashlight', 'A tool used to see in the dark')
+backpack = Pack('backpack', 'A good way to carry more items', 3)
 
 # Add items to the respective rooms
-room['foyer'].items = [dagger]
+room['foyer'].items = [dagger, backpack]
 room['overlook'].items = [rope]
 room['narrow'].items = [treasure]
 room['treasure'].items = [coins]
-
-# print(room['outside'])
+room['outside'].items = [flashlight]
 
 #
 # Main
@@ -126,15 +130,22 @@ userDir = 'c'
 
 while userDir != 'q':
     # checks if the player's inventory is full
-    if len(player1.inventory) > 1:
+    if backpack in player1.inventory:
+        if len(player1.inventory) > 4:
+            dropItem()
+    elif len(player1.inventory) > 1:
         dropItem()
 
     print("#############################################\n\n")
     print('\nYou find yourself in %s. %s\n' % (
         player1.current_room.name, player1.current_room.description))
-    userDir = input(
-        'Please enter a command of the following choices: \n Direction to move: n, s, e, w. \n Perform an action: Look around, Check inventory \n Enter q to quit: \n')
-    print("\n")
+
+    if(player1.current_room.is_light or flashlight in player1.inventory):
+        userDir = input(
+            'Please enter a command of the following choices: \n Direction to move: n, s, e, w. \n Perform an action: Look around, Check inventory \n Enter q to quit: \n')
+        print("\n")
+    else:
+        print("It's pitch black! You can't see anything. Perhaps you should find something to help see in the dark")
 
     if userDir.isalpha() and len(userDir) == 1:
         userDir = userDir.lower()
