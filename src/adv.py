@@ -1,6 +1,6 @@
 from player import Player
 from room import Room
-from item import Item, LightSource, Pack
+from item import Item, LightSource, Pack, Treasure
 
 # Declare all the rooms
 
@@ -28,12 +28,13 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
-# Create items for game
+# Create items for game (item, treasure, lightsource and packs)
 dagger = Item(
     'dagger', 'A small but very sharp dagger. Good for cutting things.')
-coins = Item('coins', "A small pile of gold coins. Shine brightly in the light")
-treasure = Item('treasure', 'A large pile of treasure')
 rope = Item('rope', 'A very sturdy long piece of rope. Could be useful...')
+coins = Treasure(
+    'coins', "A small pile of gold coins. Shine brightly in the light")
+treasure = Treasure('treasure', 'A large pile of treasure')
 flashlight = LightSource('flashlight', 'A tool used to see in the dark')
 backpack = Pack('backpack', 'A good way to carry more items', 3)
 
@@ -44,7 +45,6 @@ room['narrow'].items = [treasure]
 room['treasure'].items = [coins]
 room['outside'].items = [flashlight]
 
-#
 # Main
 #
 
@@ -136,9 +136,9 @@ def dropItem():
             else:
                 print("Please enter a valid command or item name\n")
     else:
-        while len(player1.inventory) > 1:
+        while len(player1.inventory) > 2:
             print(
-                "You have too many items to carry. \n You can only carry 1 item at a time\n")
+                "You have too many items to carry. \n You can only carry 2 items at a time\n")
 
             prompt = "What would you like to do?\n"
             for item in player1.inventory:
@@ -164,7 +164,7 @@ while userDir != 'q':
     if backpack in player1.inventory:
         if len(player1.inventory) > 4:
             dropItem()
-    elif len(player1.inventory) > 1:
+    elif len(player1.inventory) > 2:
         dropItem()
 
     print("#############################################\n\n")

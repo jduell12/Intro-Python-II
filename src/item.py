@@ -28,3 +28,10 @@ class Pack(Item):
     def __init__(self, name, description, size):
         super().__init__(name, description)
         self.size = size
+
+# Treasure subclass of item
+
+
+class Treasure(Item):
+    def __init__(self, name, description):
+        super().__init__(name, description)
