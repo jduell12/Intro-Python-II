@@ -92,19 +92,47 @@ def itemChoice():
                 if item.name == commands[1].lower():
                     player1.inventory.append(item)
                     player1.current_room.items.remove(item)
+                    item.on_take()
         else:
-            print("Please enter a valid command\n")
+            print("Please enter a valid command or item name\n")
+
+
+def dropItem():
+    print("#############################################\n\n")
+    userDir = 'c'
+    while len(player1.inventory) > 1:
+        print("You have too many items to carry. \n You can only carry 2 items at a time\n")
+
+        prompt = "What would you like to do?\n"
+        for item in player1.inventory:
+            prompt += "drop or remove " + item.name + "\n"
+        userDir = input(prompt + "\n")
+
+        commands = userDir.split()
+
+        if commands[0].lower() == 'drop' or commands[0].lower() == 'remove':
+            for item in player1.inventory:
+                if item.name == commands[1].lower():
+                    player1.inventory.remove(item)
+                    player1.current_room.items.append(item)
+                    item.on_drop()
+        else:
+            print("Please enter a valid command or item name\n")
 
 
 userDir = 'c'
 
 while userDir != 'q':
     print("#############################################\n\n")
+    # checks if the player's inventory is full
+    if len(player1.inventory) > 1:
+        dropItem()
     print('\nYou find yourself in %s. %s\n' % (
         player1.current_room.name, player1.current_room.description))
     userDir = input(
-        'Please enter a command of the following choices: \n Direction to move: n, s, e, w. \n Perform an action: Look around \n Enter q to quit: \n')
+        'Please enter a command of the following choices: \n Direction to move: n, s, e, w. \n Perform an action: Look around, Check inventory \n Enter q to quit: \n')
     print("\n")
+
     if userDir.isalpha() and len(userDir) == 1:
         userDir = userDir.lower()
         if getDirection(userDir):
@@ -144,6 +172,15 @@ while userDir != 'q':
                 print('There are no items here.\n')
             else:
                 itemChoice()
+        elif commands[0].capitalize() == 'Check' and commands[1].lower() == 'inventory':
+            inventory = "Items in inventory: \n"
+
+            if(len(player1.inventory) == 0):
+                print(inventory + "You have no items")
+            else:
+                for item in player1.inventory:
+                    inventory += item + "\n"
+                print(inventory)
         elif hasNumbers:
             print("Please enter a word or character, not a number.\n")
         else:
