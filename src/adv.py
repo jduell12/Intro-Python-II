@@ -69,38 +69,78 @@ def getDirection(direction):
     return False
 
 
-# userDir = 'c'
+def itemChoice():
+    userDir = 'c'
+    while userDir != 'q':
+        if (len(player1.current_room.items) != 0):
+            print("You find the item(s): \n %s: %s\n" % (
+                player1.current_room.items[0].name, player1.current_room.items[0].description))
+            userDir = input("What do you want to do? \n get or take %s \n Enter q to continue your adventure: \n" % (
+                player1.current_room.items[0].name))
+        else:
+            print("\nThere are no more items to get here.\n")
+            userDir = input(
+                "What do you want to do? \n Enter q to continue your adventure: \n")
 
-# while userDir != 'q':
-#     print('\nYou find yourself in %s. %s\n' % (
-#         player1.current_room.name, player1.current_room.description))
-#     userDir = input(
-#         'Please enter a direction to move: n, s, e, w. Enter q to quit: \n')
-#     if userDir.isalpha() and len(userDir) == 1:
-#         userDir = userDir.lower()
-#         if getDirection(userDir):
-#             if userDir == 'n':
-#                 try:
-#                     player1.current_room = player1.current_room.n_to
-#                 except:
-#                     print("You can't go that way\n")
-#             elif userDir == 's':
-#                 try:
-#                     player1.current_room = player1.current_room.s_to
-#                 except:
-#                     print("You can't go that way\n")
-#             elif userDir == 'e':
-#                 try:
-#                     player1.current_room = player1.current_room.e_to
-#                 except:
-#                     print("You can't go that way\n")
-#             else:
-#                 try:
-#                     player1.current_room = player1.current_room.w_to
-#                 except:
-#                     print("You can't go that way\n")
-#         else:
-#             if userDir != 'q':
-#                 print('Please enter n, s, e or w\n')
-#     else:
-#         print("Please enter a single character.\n")
+        commands = userDir.split()
+
+        if commands[0].lower() == 'get' or commands[0].lower() == 'take':
+            for item in player1.current_room.items:
+                if item.name == commands[1]:
+                    player1.inventory.append(item)
+                    player1.current_room.items.remove(item)
+        else:
+            print("Please enter a valid command\n")
+
+
+userDir = 'c'
+
+while userDir != 'q':
+    print('\nYou find yourself in %s. %s\n' % (
+        player1.current_room.name, player1.current_room.description))
+    userDir = input(
+        'Please enter a command of the following choices: \n Direction to move: n, s, e, w. \n Perform an action: Look around \n Enter q to quit: \n')
+    print("\n")
+    if userDir.isalpha() and len(userDir) == 1:
+        userDir = userDir.lower()
+        if getDirection(userDir):
+            if userDir == 'n':
+                try:
+                    player1.current_room = player1.current_room.n_to
+                except:
+                    print("You can't go that way\n")
+            elif userDir == 's':
+                try:
+                    player1.current_room = player1.current_room.s_to
+                except:
+                    print("You can't go that way\n")
+            elif userDir == 'e':
+                try:
+                    player1.current_room = player1.current_room.e_to
+                except:
+                    print("You can't go that way\n")
+            else:
+                try:
+                    player1.current_room = player1.current_room.w_to
+                except:
+                    print("You can't go that way\n")
+        else:
+            if userDir != 'q':
+                print('Please enter n, s, e or w\n')
+    else:
+        # checks that there are no numbers in the string
+        hasNumbers = False
+        for c in userDir:
+            if c.isdigit():
+                hasNumbers = True
+
+        commands = userDir.split()
+        if commands[0].capitalize() == 'Look' and commands[1].lower() == 'around':
+            if len(player1.current_room.items) == 0:
+                print('There are no items here.\n')
+            else:
+                itemChoice()
+        elif hasNumbers:
+            print("Please enter a word or character, not a number.\n")
+        else:
+            print("Please enter a valid command.\n")
