@@ -93,6 +93,8 @@ def itemChoice():
                     player1.inventory.append(item)
                     player1.current_room.items.remove(item)
                     item.on_take()
+        elif commands[0] == 'q':
+            continue
         else:
             print("Please enter a valid command or item name\n")
 
@@ -101,7 +103,7 @@ def dropItem():
     print("#############################################\n\n")
     userDir = 'c'
     while len(player1.inventory) > 1:
-        print("You have too many items to carry. \n You can only carry 2 items at a time\n")
+        print("You have too many items to carry. \n You can only carry 1 item at a time\n")
 
         prompt = "What would you like to do?\n"
         for item in player1.inventory:
@@ -123,10 +125,11 @@ def dropItem():
 userDir = 'c'
 
 while userDir != 'q':
-    print("#############################################\n\n")
     # checks if the player's inventory is full
     if len(player1.inventory) > 1:
         dropItem()
+
+    print("#############################################\n\n")
     print('\nYou find yourself in %s. %s\n' % (
         player1.current_room.name, player1.current_room.description))
     userDir = input(
